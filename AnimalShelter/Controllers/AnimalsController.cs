@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using AnimalShelter.Models;
 namespace AnimalShelter.Controllers
 {
+  [Route("api/[controller]")]
+  [ApiController]
   public class AnimalsController : ControllerBase
   {
     private readonly AnimalShelterContext _db;
@@ -17,7 +19,7 @@ namespace AnimalShelter.Controllers
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Animal>>> Get()
     {
-      return await _db.Animal.ToListAsync()
+      return await _db.Animals.ToListAsync();
     }
     // POST api/animals
     [HttpPost]
@@ -25,7 +27,21 @@ namespace AnimalShelter.Controllers
     {
       _db.Animals.Add(animal);
       await _db.SaveChangesAsync();
-      return CreatedAtAction("Post", new{id = animal.AnimalId},animal);
+
+return CreatedAtAction(nameof(GetAnimal), new { id = animal.AnimalId }, animal);    }
+
+    //GET : api/Animals/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Animal>> GetAnimal(int id)
+    {
+      var animal = await _db.Animals.FindAsync(id);
+      if (animal == null)
+      {
+        return NotFound();
+      }
+
+      return animal;
     }
+
   }
 }
