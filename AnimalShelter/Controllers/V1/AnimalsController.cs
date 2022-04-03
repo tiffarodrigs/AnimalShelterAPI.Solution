@@ -24,7 +24,9 @@ namespace AnimalShelter.Controllers.V1
     //GET api/animals
     [MapToApiVersion("1.0")]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Animal>>> Get(string species,string gender,string name,int minimumAge)
+    //public async Task<ActionResult<IEnumerable<Animal>>> Get(string species,string gender,string name,int minimumAge)
+    public async Task<ActionResult<IEnumerable<Animal>>> Get(string species,string gender,string name,int minimumAge,[FromQuery] PaginationFilter filter)
+    
     {
       var query = _db.Animals.AsQueryable();
       if(species!=null)
@@ -44,7 +46,15 @@ namespace AnimalShelter.Controllers.V1
       {
         query = query.Where(e => e.Age == minimumAge);
       }
-      return await query.ToListAsync();
+     // return await query.ToListAsync();
+    var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+    var pagedData = await _db.Animals
+        .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+        .Take(validFilter.PageSize)
+        .ToListAsync();
+    var totalRecords = await _db.Animals.CountAsync();
+    return Ok(new PagedResponse<List<Animal>>(pagedData, validFilter.PageNumber, validFilter.PageSize));
+
     }
     // POST api/animals
     [MapToApiVersion("1.0")]
@@ -67,7 +77,8 @@ namespace AnimalShelter.Controllers.V1
       {
         return NotFound();
       }
-      return animal;
+      //return animal;
+      return Ok(new Response<Animal>(animal));
     }
     // PUT: api/Animals/5
     [MapToApiVersion("1.0")]
