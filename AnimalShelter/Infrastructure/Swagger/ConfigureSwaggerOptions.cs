@@ -49,11 +49,11 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
     {
         var info = new OpenApiInfo()
         {
-            Title = "Cool Web API",
+            Title = "Animal Shelter API",
             Version = description.ApiVersion.ToString(),
-            Description = "A Cool Web API Sample.",
-            Contact = new OpenApiContact { Name = "Mosi Esmailpour", Email = "mo.esmp@gmail.com" },
-            License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
+            Description = "A Animal ShelterAPI Sample.",
+            //Contact = new OpenApiContact { Name = "Mosi Esmailpour", Email = "mo.esmp@gmail.com" },
+           // License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
         };
 
         if (description.IsDeprecated)
