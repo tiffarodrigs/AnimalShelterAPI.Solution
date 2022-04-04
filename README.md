@@ -2,7 +2,7 @@
 
 #### By _**Tiffany Rodrigo**_
 
-#### Create an API for a local animal shelter. The API will list the available cats and dogs at the shelter using C# ASP.Net Core MVC
+#### Create an API for a local animal shelter. The API will list the available cats and dogs at the shelter using C# ASP.Net Core Web api
 
 ## Technologies Used
 * _C#_
